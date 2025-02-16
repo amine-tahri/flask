@@ -1,0 +1,42 @@
+1. DAO (Data Access Object)
+Purpose: The DAO layer handles interactions with the database. It abstracts database queries and provides a clean interface for retrieving, updating, deleting, or inserting data.
+Responsibilities: Encapsulate database queries (e.g., using SQLAlchemy models and queries).
+
+2. API
+Purpose: This defines the RESTful endpoints for the module, allowing external clients or frontend applications to interact with it.
+Responsibilities:
+Define HTTP routes (e.g., /api/v1/some_entity).
+Handle request parsing and validation (often delegating to schemas).
+Call DAO or command functions to execute the necessary logic.
+Format and return responses to clients.
+
+3. Schemas
+Purpose: Schemas define the structure and validation rules for the data, ensuring that input/output data is correctly formatted and valid.
+Responsibilities:
+Serialize and deserialize data (e.g., from JSON to Python objects and vice versa).
+Enforce validation rules for incoming requests or outgoing responses.
+Provide a clear contract for the API's data formats.
+
+4. Commands
+Purpose: The command layer encapsulates business logic and use cases. This layer ensures that complex operations are modular and testable.
+Responsibilities:
+Execute specific tasks or workflows related to the module (e.g., creating an entity, running calculations, or sending notifications).
+Enforce business rules and validations.
+Call DAOs for database interactions if needed.
+
+
+5. Benefits of This Architecture
+Separation of Concerns: Each component has a distinct responsibility, making it easier to understand and modify.
+Scalability: You can add new modules or features without affecting existing ones.
+Testability: Commands, DAOs, and APIs can be tested independently.
+Maintainability: Encapsulation of logic into modules prevents tightly coupled code.
+
+
+Example Workflow
+If you want to create a new entity:
+
+API Layer: Receives a POST request with JSON payload.
+Schemas: Validates and deserializes the payload.
+Commands: Executes the business logic to create the entity.
+DAO: Interacts with the database to insert the new entity.
+API Layer: Formats the response and sends it back to the client.

@@ -1,4 +1,7 @@
 *.pyc
 venv/
+.vscode
+/config.json
+
 
 todo.txt

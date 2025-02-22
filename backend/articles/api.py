@@ -2,13 +2,19 @@
 # 2 validate schema
 # 3 call command function
 from flask import request, jsonify
-from flask_appbuilder.api import BaseApi as FabBaseApi, expose
 from articles.schemas import ArticleSchema, ArticlePosPuttSchema
 from articles.commands.create import CreateArticleCommand
 from articles.dao import ArticleDAO
 
+def expose(url: str = "/", methods: list[str] = ["GET"]):
+    def wrap(f):
+        if not hasattr(f, "_urls"):
+            f._urls = []
+        f._urls.append((url, methods))
+        return f
+    return wrap
 
-class ArticleRestApi(FabBaseApi):
+class ArticleRestApi():
     route_base = "/articles"
     model_DAO = ArticleDAO
     model_get_schema= ArticleSchema()

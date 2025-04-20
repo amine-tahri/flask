@@ -71,7 +71,7 @@ class UserRestApi():
             result = self.model_get_schema.dump(new_model)
             return jsonify(result)
         except Exception as e:
-            return self.response_500()
+            return str(e)
 
     @expose('/<id>', methods=['PUT'])
     def update(self, id):

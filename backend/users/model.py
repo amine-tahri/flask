@@ -11,3 +11,4 @@ class User(Base):
     id = Column(db.Integer, primary_key=True)
     name = Column(db.String(100), nullable=False)
     address = Column(db.String(200), nullable=False)
+    password = Column(db.String(150), nullable=False)

@@ -31,16 +31,17 @@ def create_app(custom_config=None):
         data = request.get_json()
         if not data or not data.get('name') or not data.get('password'):
             return jsonify({"error": "Missing username or password"}), 400
-        user = User.query.filter_by(name=data['name']).first()
+        user = User.query.filter_by(name = data['name']).first()
         # TODO use bcrypt.check_password_hash instead
         if user and user.password == data['password']:
 
-            access_token = create_access_token(identity=user.name, expires_delta=timedelta(seconds=30))
-            refresh_token = create_refresh_token(identity=user.name)
+            access_token = create_access_token(identity=user.name, expires_delta=timedelta(seconds=15))
+            refresh_token = create_refresh_token(identity=user.name, expires_delta=timedelta(hours=24))
 
             return jsonify({
                 "access_token":access_token,
-                "refresh_token": refresh_token
+                "refresh_token": refresh_token,
+                "user_details": user.to_dict()
                 }), 200
 
         return jsonify({"error": "Invalid credentials"}), 401
@@ -49,7 +50,7 @@ def create_app(custom_config=None):
     @jwt_required(refresh=True)
     def refresh():
         current_user = get_jwt_identity()
-        new_access_token = create_access_token(identity=current_user)
+        new_access_token = create_access_token(identity=current_user, expires_delta=timedelta(seconds=15))
         return jsonify(access_token=new_access_token)
 
     if not app.config['TESTING']:

@@ -2,6 +2,7 @@
 venv/
 .vscode
 /config.json
+.git*
 
 
 todo.txt

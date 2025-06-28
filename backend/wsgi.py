@@ -9,5 +9,4 @@ app = create_app()
 db.init_app(app)
 
 if __name__ == "__main__":
-    app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions = [10])
     app.run(debug = True)
